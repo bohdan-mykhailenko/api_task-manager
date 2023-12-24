@@ -5,19 +5,21 @@ import { TransformInterceptor } from './transform.interceptor';
 import { Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
-
+const PORT = process.env.PORT || 500
 
 async function bootstrap() {
   const logger = new Logger();
   const app = await NestFactory.create(AppModule);
+
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalInterceptors(new TransformInterceptor());
-  const port = 3000;
-  await app.listen(port);
-  logger.log(`Application listening on port ${port}`);
+
+  await app.listen(PORT);
+
+  logger.log(`Application listening on port ${PORT}`);
 
   const configService = app.get(ConfigService);
-
-
 }
+
+
 bootstrap();

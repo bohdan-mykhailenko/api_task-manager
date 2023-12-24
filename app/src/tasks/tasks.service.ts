@@ -6,6 +6,8 @@ import {TasksRepository} from './tasks.repository';
 import {InjectRepository} from '@nestjs/typeorm';
 import {Task} from './task.entity';
 import {User} from 'src/users/user.entity';
+import { In } from 'typeorm';
+import SearchService from 'src/search/search.service';
 
 @Injectable()
 export class TasksService {
@@ -14,6 +16,7 @@ export class TasksService {
     constructor(
         @InjectRepository(TasksRepository)
         private tasksRepository: TasksRepository,
+        private tasksSearchService: SearchService
     ) {
     }
 
@@ -36,8 +39,26 @@ export class TasksService {
         return found;
     }
 
-    createTask(createTaskDto: CreateTaskDto, user: User): Promise<Task> {
-        return this.tasksRepository.createTask(createTaskDto, user);
+    async createTask(createTaskDto: CreateTaskDto, user: User): Promise<Task> {
+        const newTask = await this.tasksRepository.createTask(createTaskDto, user);
+
+        this.tasksSearchService.indexPost(newTask);
+
+        return newTask
+    }
+
+    async searchFortasks(text: string) {
+        const results = await this.tasksSearchService.search(text);
+        const ids = results.map(result => result.id);
+
+        if (!ids.length) {
+            return [];
+        }
+
+        return this.tasksRepository
+            .find({
+                where: { id: In(ids) }
+            });
     }
 
     async deleteTask(id: string, user: User): Promise<void> {

@@ -7,9 +7,10 @@ import {TasksService} from './tasks.service';
 import {ConfigModule} from '@nestjs/config';
 import {BullModule} from "@nestjs/bull";
 import {FilesProcessor} from "./tasks.proccessor";
+import { SearchModule } from 'src/search/search.module';
 
 @Module({
-    imports: [ConfigModule, TypeOrmModule.forFeature([TasksRepository]), AuthModule,
+    imports: [SearchModule, ConfigModule, TypeOrmModule.forFeature([TasksRepository]), AuthModule,
         BullModule.registerQueue({name: 'files'})
     ],
     controllers: [TasksController],
