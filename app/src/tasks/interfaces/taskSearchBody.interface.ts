@@ -1,5 +1,6 @@
 export interface TaskSearchBody {
   id: string,
   title: string,
-  description
+  description: string,
+  user_id: string,
 }

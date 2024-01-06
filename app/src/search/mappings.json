@@ -10,6 +10,15 @@
           }
         }
       },
+      "user_id": {
+        "type": "UUID",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
       "title": {
         "type": "text",
         "analyzer": "autocomplete",

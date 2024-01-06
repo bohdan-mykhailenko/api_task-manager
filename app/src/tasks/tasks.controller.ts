@@ -18,18 +18,30 @@ export class TasksController {
     constructor(private tasksService: TasksService, @InjectQueue('files') private readonly filesQueue: Queue) {
     }
 
+    // @Get()
+    // getTasks(
+    //     @Query() filterDto: GetTasksFilterDto,
+    //     @GetUser() user: User,
+    // ): Promise<Task[]> {
+    //     this.logger.verbose(
+    //         `User "${user.username}" retrieving all tasks. Filters: ${JSON.stringify(
+    //             filterDto,
+    //         )}`,
+    //     );
+    //     return this.tasksService.getTasks(filterDto, user);
+    // }
+
     @Get()
-    getTasks(
-        @Query() filterDto: GetTasksFilterDto,
-        @GetUser() user: User,
-    ): Promise<Task[]> {
-        this.logger.verbose(
-            `User "${user.username}" retrieving all tasks. Filters: ${JSON.stringify(
-                filterDto,
-            )}`,
-        );
-        return this.tasksService.getTasks(filterDto, user);
+  async getTasks(@Query('search') search: string, @GetUser() user: User,) {
+    if (search) {
+        console.log(search)
+      return this.tasksService.searchTasks(search);
     }
+       console.log('search')
+
+
+    return this.tasksService.getAllTasks();
+  }
 
     // @Get('/:id')
     // getTaskById(@Param('id') id: string, @GetUser() user: User): Promise<Task> {

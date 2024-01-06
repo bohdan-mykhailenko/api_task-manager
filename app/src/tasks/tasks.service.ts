@@ -28,6 +28,10 @@ export class TasksService {
         return tasks;
     }
 
+    async getAllTasks(): Promise<Task[]> {
+        return this.tasksRepository.getAllTasks();
+    }
+
 
     async getTaskById(id: string, user: User): Promise<Task> {
         const found = await this.tasksRepository.findOne({where: {id, user}});
@@ -42,12 +46,12 @@ export class TasksService {
     async createTask(createTaskDto: CreateTaskDto, user: User): Promise<Task> {
         const newTask = await this.tasksRepository.createTask(createTaskDto, user);
 
-        this.tasksSearchService.indexPost(newTask);
+        await this.tasksSearchService.indexPost(newTask);
 
         return newTask
     }
 
-    async searchFortasks(text: string) {
+    async searchTasks(text: string) {
         const results = await this.tasksSearchService.search(text);
         const ids = results.map(result => result.id);
 

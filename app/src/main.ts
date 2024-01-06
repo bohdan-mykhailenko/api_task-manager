@@ -5,7 +5,7 @@ import { TransformInterceptor } from './transform.interceptor';
 import { Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
-const PORT = process.env.PORT || 500
+const PORT = process.env.PORT || 3000
 
 async function bootstrap() {
   const logger = new Logger();
@@ -18,7 +18,6 @@ async function bootstrap() {
 
   logger.log(`Application listening on port ${PORT}`);
 
-  const configService = app.get(ConfigService);
 }
 
 
