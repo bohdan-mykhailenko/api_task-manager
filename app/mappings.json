@@ -7,18 +7,14 @@
           "keyword": {
             "type": "keyword",
             "ignore_above": 256
+          },
+          "autocomplete": {
+            "type": "text",
+            "analyzer": "autocomplete"
           }
         }
       },
-      "user_id": {
-        "type": "UUID",
-        "fields": {
-          "keyword": {
-            "type": "keyword",
-            "ignore_above": 256
-          }
-        }
-      },
+
       "title": {
         "type": "text",
         "analyzer": "autocomplete",
@@ -27,6 +23,10 @@
           "keyword": {
             "type": "keyword",
             "ignore_above": 256
+          },
+          "autocomplete": {
+            "type": "text",
+            "analyzer": "autocomplete"
           }
         }
       }

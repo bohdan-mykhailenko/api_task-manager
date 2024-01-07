@@ -1,10 +1,11 @@
-import { User } from "src/users/user.entity";
+import { InternalServerErrorException, Logger } from "@nestjs/common";
 import { EntityRepository, Repository } from "typeorm";
+
+import { User } from "src/users/user.entity";
 import { CreateTaskDto } from "./dto/create-task.dto";
 import { GetTasksFilterDto } from "./dto/get-tasks-filter.dto";
 import { TaskStatus } from "./task-status.enum";
 import { Task } from "./task.entity";
-import { InternalServerErrorException, Logger } from "@nestjs/common";
 
 @EntityRepository(Task)
 export class TasksRepository extends Repository<Task> {
@@ -55,19 +56,6 @@ export class TasksRepository extends Repository<Task> {
     }
   }
 
-  async getAllTasks(): Promise<Task[]> {
-    try {
-      const tasks = await this.find();
-
-      return tasks;
-    } catch (error) {
-      console.error(`Failed to get all tasks ".`, error.stack);
-      throw new Error("Failed to get tasks.");
-    }
-  }
-
-  //need to split logic into create and save steps
-
   async createTask(createTaskDto: CreateTaskDto, user: User): Promise<Task> {
     const { title, description } = createTaskDto;
 
@@ -79,6 +67,7 @@ export class TasksRepository extends Repository<Task> {
     });
 
     await this.save(task);
+
     return task;
   }
 }

@@ -10,8 +10,9 @@ import SearchService from "./search.service";
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
         node: configService.get("ELASTICSEARCH_NODE"),
+        maxRetries: 10,
+        requestTimeout: 60000,
         auth: {
-          node: configService.get("ELASTICSEARCH_USERNAME"),
           username: configService.get("ELASTICSEARCH_USERNAME"),
           password: configService.get("ELASTICSEARCH_PASSWORD"),
         },
@@ -22,13 +23,9 @@ import SearchService from "./search.service";
   providers: [SearchService],
   exports: [ElasticsearchModule, SearchService],
 })
-
-export class SearchModule {}
-
-// export class SearchModule implements OnModuleInit  {
-//   constructor(private readonly searchService: SearchService){}
-
-//   public async onModuleInit() {
-//      await this.searchService.createIndex();
-//   }
-// }
+export class SearchModule implements OnModuleInit {
+  constructor(private readonly searchService: SearchService) {}
+  public async onModuleInit() {
+    await this.searchService.createIndex();
+  }
+}
