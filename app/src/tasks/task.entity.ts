@@ -1,12 +1,12 @@
-import { Exclude } from 'class-transformer';
-import { User } from 'src/users/user.entity';
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { TaskStatus } from './task-status.enum';
+import { Exclude } from "class-transformer";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
+import { User } from "src/users/user.entity";
+import { TaskStatus } from "./task-status.enum";
 
 @Entity()
 export class Task {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn("uuid")
   id: string;
 
   @Column()
@@ -18,7 +18,7 @@ export class Task {
   @Column()
   status: TaskStatus;
 
-  @Column({ name: 'photoUrl', nullable: true })
+  @Column({ name: "photoUrl", nullable: true })
   public photoUrl?: string;
 
   @ManyToOne((_type) => User, (user) => user.tasks, { eager: false })

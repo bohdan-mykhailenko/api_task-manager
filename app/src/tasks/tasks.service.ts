@@ -36,7 +36,10 @@ export class TasksService {
   }
 
   async createTask(createTaskDto: CreateTaskDto, user: User): Promise<Task> {
-    const newTask = await this.tasksRepository.createTask(createTaskDto, user);
+    const newTask = await this.tasksRepository.createAndSaveTask(
+      createTaskDto,
+      user
+    );
 
     await this.searchService.indexItem(newTask);
 

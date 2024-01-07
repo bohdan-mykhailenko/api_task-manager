@@ -1,11 +1,12 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { ElasticsearchService } from "@nestjs/elasticsearch";
-import { TaskSearchResult } from "../tasks/interfaces/taskSearchResponse.interface";
-import { TaskSearchBody } from "../tasks/interfaces/taskSearchBody.interface";
-import { Task } from "../tasks/task.entity";
 import { ConfigService } from "@nestjs/config";
 import * as fs from "fs";
 import * as path from "path";
+
+import { TaskSearchResult } from "../tasks/interfaces/taskSearchResponse.interface";
+import { TaskSearchBody } from "../tasks/interfaces/taskSearchBody.interface";
+import { Task } from "../tasks/task.entity";
 
 @Injectable()
 export default class SearchService {
